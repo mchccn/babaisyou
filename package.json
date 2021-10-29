@@ -1,0 +1,29 @@
+{
+    "name": "babaisyou",
+    "description": "Baba Is You: TypeScript Edition",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "watch": "tsc -w",
+        "build": "webpack"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "ts-loader": "^9.2.2",
+        "tslib": "^2.2.0",
+        "typescript": "^4.2.4",
+        "webpack": "^5.37.1",
+        "webpack-cli": "^4.7.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cursorsdottsx/babaisyou.git"
+    },
+    "keywords": [],
+    "author": "cursorsdottsx <cursors.dev@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/cursorsdottsx/babaisyou/issues"
+    },
+    "homepage": "https://github.com/cursorsdottsx/babaisyou#readme"
+}
