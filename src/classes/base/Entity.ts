@@ -1,7 +1,8 @@
 export class Entity {
     sprite: { x: number; y: number; w: number; h: number };
+
     constructor(
-        public readonly type: string,
+        public readonly type: "subject" | "noun" | "verb" | "predicate" | "conjunction",
         public readonly name: string,
         public x: number,
         public y: number,

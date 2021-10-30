@@ -1,4 +1,4 @@
-import { Entity } from "./classes/Entity";
+import { Entity } from "./classes/base/Entity";
 import mappings from "./mappings";
 
 export function serialize(board: Entity[][]) {
@@ -16,10 +16,10 @@ export function serialize(board: Entity[][]) {
                 "noun:ROCK",
                 "noun:FLAG",
                 "noun:BABA",
-                "property:YOU",
-                "property:STOP",
-                "property:WIN",
-                "property:PUSH",
+                "predicate:YOU",
+                "predicate:STOP",
+                "predicate:WIN",
+                "predicate:PUSH",
                 "verb:IS",
             ];
 

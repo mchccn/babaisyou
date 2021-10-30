@@ -1,8 +1,11 @@
-import { Entity } from "./classes/Entity";
+import { Entity } from "./classes/base/Entity";
+import { Rule } from "./types";
+
+// ! doesnt handle "noun and noun is predicate" or "noun is noun" yet
 
 export default function rules(board: Entity[][]) {
     function rulesFromRow(row: Entity[]) {
-        const rules = [] as { target: string; property: string }[];
+        const rules = [] as Rule[];
 
         const tiles = [...row];
 
@@ -12,12 +15,12 @@ export default function rules(board: Entity[][]) {
             const { type, name } = tile;
 
             if (type === "noun") {
-                if (tiles[0]?.type === "verb" && tiles[1]?.type === "property") {
+                if (tiles[0]?.type === "verb" && tiles[1]?.type === "predicate") {
                     tiles.shift()!;
 
                     const properties = [tiles.shift()!];
 
-                    while ((tiles[0] as typeof tiles[0])?.type === "conjunction" && tiles[1]?.type === "property") {
+                    while ((tiles[0] as typeof tiles[0])?.type === "conjunction" && tiles[1]?.type === "predicate") {
                         tiles.shift();
 
                         properties.push(tiles.shift()!);
@@ -26,7 +29,7 @@ export default function rules(board: Entity[][]) {
                     rules.push(
                         ...properties.map((prop) => ({
                             target: name,
-                            property: prop.name,
+                            predicate: prop.name,
                         }))
                     );
                 }
@@ -36,7 +39,7 @@ export default function rules(board: Entity[][]) {
         return rules;
     }
 
-    const rules = [] as { target: string; property: string }[];
+    const rules = [] as Rule[];
 
     for (const row of board) {
         rules.push(...rulesFromRow(row));
@@ -46,8 +49,8 @@ export default function rules(board: Entity[][]) {
         rules.push(...rulesFromRow(board.map((row) => row[i])));
     }
 
-    return rules.reduce(
-        (filtered, rule) => (filtered.some((r) => r.target === rule.target && r.property === rule.property) ? filtered : filtered.concat(rule)),
-        [] as typeof rules
+    return rules.reduce<Rule[]>(
+        (filtered, rule) => (filtered.some((r) => r.target === rule.target && r.predicate === rule.predicate) ? filtered : filtered.concat(rule)),
+        []
     );
 }

@@ -1,19 +1,22 @@
-import { Baba } from "./classes/Baba";
-import { BabaNoun } from "./classes/BabaNoun";
-import { Empty } from "./classes/Empty";
-import { Entity } from "./classes/Entity";
-import { Flag } from "./classes/Flag";
-import { FlagNoun } from "./classes/FlagNoun";
-import { IsVerb } from "./classes/IsVerb";
-import { PushProperty } from "./classes/PushProperty";
-import { Rock } from "./classes/Rock";
-import { RockNoun } from "./classes/RockNoun";
-import { StopProperty } from "./classes/StopProperty";
-import { Wall } from "./classes/Wall";
-import { WallNoun } from "./classes/WallNoun";
-import { WinProperty } from "./classes/WinProperty";
-import { YouProperty } from "./classes/YouProperty";
-import levels from "./levels";
+import { BabaNoun } from "./classes/nouns/BabaNoun";
+import { FlagNoun } from "./classes/nouns/FlagNoun";
+import { RockNoun } from "./classes/nouns/RockNoun";
+import { WallNoun } from "./classes/nouns/WallNoun";
+import { PushPredicate } from "./classes/predicates/PushPredicate";
+import { StopPredicate } from "./classes/predicates/StopPredicate";
+import { WinPredicate } from "./classes/predicates/WinPredicate";
+import { YouPredicate } from "./classes/predicates/YouPredicate";
+import { Baba } from "./classes/subjects/Baba";
+import { Empty } from "./classes/subjects/Empty";
+import { Flag } from "./classes/subjects/Flag";
+import { Rock } from "./classes/subjects/Rock";
+import { Wall } from "./classes/subjects/Wall";
+import { IsVerb } from "./classes/verbs/IsVerb";
+import Push from "./rules/Push";
+import Stop from "./rules/Stop";
+import Win from "./rules/Win";
+import You from "./rules/You";
+import { RuleContext } from "./types";
 
 const mappings = {
     classes: new Map([
@@ -26,10 +29,10 @@ const mappings = {
         ["noun:WALL", () => WallNoun],
         ["noun:FLAG", () => FlagNoun],
         ["noun:ROCK", () => RockNoun],
-        ["property:YOU", () => YouProperty],
-        ["property:STOP", () => StopProperty],
-        ["property:WIN", () => WinProperty],
-        ["property:PUSH", () => PushProperty],
+        ["predicate:YOU", () => YouPredicate],
+        ["predicate:STOP", () => StopPredicate],
+        ["predicate:WIN", () => WinPredicate],
+        ["predicate:PUSH", () => PushPredicate],
         ["verb:IS", () => IsVerb],
     ]),
     sprites: new Map<string, [number, number, number, number]>([
@@ -42,32 +45,17 @@ const mappings = {
         ["noun:WALL", [37 * 1, 37 * 5, 37, 37]],
         ["noun:FLAG", [36.5 * 1, 37.5 * 3, 37, 37]],
         ["noun:ROCK", [37 * 1, 37 * 4, 37, 37]],
-        ["property:YOU", [37 * 2, 38 * 1, 37, 37]],
-        ["property:STOP", [37 * 2, 37.5 * 5, 37, 36]],
-        ["property:WIN", [37 * 2, 37 * 3, 37, 37]],
-        ["property:PUSH", [37 * 2, 37.5 * 4, 37, 37]],
+        ["predicate:YOU", [37 * 2, 38 * 1, 37, 37]],
+        ["predicate:STOP", [37 * 2, 37.5 * 5, 37, 36]],
+        ["predicate:WIN", [37 * 2, 37 * 3, 37, 37]],
+        ["predicate:PUSH", [37 * 2, 37.5 * 4, 37, 37]],
         ["verb:IS", [37 * 1, 37 * 0, 37, 37]],
     ]),
-    rules: new Map<string, (level: number, entities: Entity[], key?: string) => unknown>([
-        [
-            "YOU",
-            (level, entities, key) => {
-                entities.forEach((e) => {
-                    if (key === "ArrowUp") e.y--;
-                    if (key === "ArrowDown") e.y++;
-                    if (key === "ArrowLeft") e.x--;
-                    if (key === "ArrowRight") e.x++;
-
-                    if (e.y < 0) e.y++;
-                    if (e.y > levels[level].level.length) e.y--;
-                    if (e.x < 0) e.x++;
-                    if (e.x > levels[level].level[0].length) e.x--;
-                });
-            },
-        ],
-        ["STOP", () => {}],
-        ["WIN", () => {}],
-        ["PUSH", () => {}],
+    rules: new Map<string, (ctx: RuleContext) => unknown>([
+        ["YOU", You],
+        ["STOP", Stop],
+        ["WIN", Win],
+        ["PUSH", Push],
     ]),
 };
 

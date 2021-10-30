@@ -1,5 +1,5 @@
-import mappings from "../mappings";
-import { Entity } from "./Entity";
+import mappings from "../../mappings";
+import { Entity } from "../base/Entity";
 
 export class Flag extends Entity {
     constructor(x: number, y: number) {

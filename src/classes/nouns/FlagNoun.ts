@@ -1,5 +1,5 @@
-import mappings from "../mappings";
-import { IntrinsicPushable } from "./IntrinsicPushable";
+import mappings from "../../mappings";
+import { IntrinsicPushable } from "../base/IntrinsicPushable";
 
 export class FlagNoun extends IntrinsicPushable {
     constructor(x: number, y: number) {

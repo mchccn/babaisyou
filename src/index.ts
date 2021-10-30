@@ -38,12 +38,16 @@ import { deserialize, serialize } from "./serialization";
 
             const board = serialize(entities);
 
-            rules(entities).forEach((rule) =>
-                mappings.rules.get(rule.property)!(
-                    level,
-                    entities.flat().filter((e) => e.type === "subject" && e.name === rule.target),
-                    keys.shift()
-                )
+            const inplay = rules(entities);
+
+            inplay.forEach((rule) =>
+                mappings.rules.get(rule.predicate)!({
+                    level: level,
+                    entities: entities.flat(),
+                    targets: entities.flat().filter((e) => e.type === "subject" && e.name === rule.target),
+                    rules: inplay,
+                    key: keys.shift(),
+                })
             );
 
             draw(board);
